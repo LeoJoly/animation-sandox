@@ -1,0 +1,46 @@
+/* # Font Mixins */
+/* One mixin by font-style, order by asc */
+
+@mixin font-body-text($font: $font-primary, $font-size: 1.6rem, $weight : 400, $style: normal, $line-height : 2.6rem) {
+  font: {
+    family: $font;
+    style: $style;
+    size: $font-size;
+    weight: $weight;
+  }
+  line-height: $line-height;
+}
+
+@mixin font-page-title($font: $font-primary, $font-size: 4rem, $weight : 700, $style: normal, $line-height : 5rem) {
+  font: {
+    family: $font;
+    style: $style;
+    size: $font-size;
+    weight: $weight;
+  }
+  line-height: $line-height;
+}
+
+@mixin font-cta($font: $font-primary, $font-size: 1.4rem, $weight : 700, $style: normal, $line-height : 1.8rem) {
+  font: {
+    family: $font;
+    style: $style;
+    size: $font-size;
+    weight: $weight;
+  }
+  line-height: $line-height;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+@mixin font-lang-selector($font: $font-primary, $font-size: 1.2rem, $weight : 400, $style: normal, $line-height : 1.6rem) {
+  font: {
+    family: $font;
+    style: $style;
+    size: $font-size;
+    weight: $weight;
+  }
+  line-height: $line-height;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}

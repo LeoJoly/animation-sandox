@@ -1,0 +1,74 @@
+/**** Keyframes Animation ****/
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-ms-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+/*
+Accessibility hidden
+https://developer.yahoo.com/blogs/ydn/clip-hidden-content-better-accessibility-53456.html
+*/
+
+@mixin hide-for-viewer {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+/* block stretching */
+@mixin stretch($position: absolute, $length: 0) {
+  position: $position;
+  left: $length;
+  top: $length;
+  bottom: $length;
+  right: $length;
+}
+
+/* Center with absolute position */
+@mixin absolute-center($offset-x: 0px, $offset-y: 0px) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(calc(-50% - #{$offset-x}), calc(-50% - #{$offset-y}));
+}
+
+/* Set fixed aspect-ratio */
+@mixin aspect-ratio($ratio-or-width, $height: null) {
+  $padding: if($height, percentage($height/$ratio-or-width), percentage(1/$ratio-or-width));
+  &:before {
+    content: '';
+    float: left;
+    padding-bottom: $padding;
+  }
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+/* Set svg width/height and its parent to the same value */
+@mixin svgSize($width, $height) {
+  width: $width;
+  height: $height;
+  line-height: 0;
+  svg {
+    width: $width;
+    height: $height;
+  }
+}

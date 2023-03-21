@@ -1,0 +1,36 @@
+// Fonts
+$font-primary: 'Arial', sans-serif !default;
+
+// Generic colors
+$white: #fff;
+$pure-black: #000;
+$grey-dark: #4D4D4D;
+
+// Brand colors
+$color-background-dark: #333333;
+$color-background: #FFFFFF;
+$color-brand: #999999;
+
+// Easing
+$ease: ease;
+
+// Grid
+$container-width: 140rem;
+$container-padding: 2rem;
+$container-padding-desktop: 10rem;
+
+// for .o-grid & .u-gc classes
+$grid: (
+  'cols': 12,
+  'gutter': 1.5rem,
+);
+
+// for .o-padding classes
+$paddings: (
+  'tiny': 1rem,
+  'small': 3rem,
+  'medium': 5rem,
+  'large': 7rem,
+  'wide': 9rem,
+  'huge': 11rem,
+);

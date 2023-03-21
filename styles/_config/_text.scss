@@ -1,0 +1,62 @@
+.page {
+
+  &__title {
+
+    @include font-page-title();
+    color: $color-brand;
+    margin-bottom: 8rem;
+
+    &--centered {
+      text-align: center;
+    }
+
+  }
+
+  &__content {
+    @include mq($from: desktop) {
+      padding: 15rem 0;
+      margin: 0 8.3333%;
+    }
+
+    p {
+      margin-bottom: 2rem;
+    }
+
+    a {
+      color: $color-brand;
+      text-decoration: underline;
+    }
+  }
+
+  &__section {
+    margin-bottom: 5rem;
+
+    strong {
+      font-weight: 700;
+    }
+  }
+
+  &__subsection {
+    margin: 3rem 0;
+  }
+
+  &__subtitle {
+    font-family: "FS Rufus Bold", serif;
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 2.6rem;
+    color: $color-brand;
+    margin-bottom: 2rem;
+
+    &--3 {
+      font-size: 1.6rem;
+      line-height: 2.2rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+}
+
+.content-page {
+  background-color: $color-background;
+}
