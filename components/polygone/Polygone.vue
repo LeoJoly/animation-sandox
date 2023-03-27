@@ -1,21 +1,22 @@
 <script setup lang="ts">
+import gsap from 'gsap'
 import { Camera, GltfModel, PointLight, Renderer, Scene, SpotLight } from 'troisjs'
 import { POSITIONS } from '@/scripts/constants'
 
 /** State */
 const positionIndex = ref(0)
 const isModelReady = ref(false)
-const camera = ref<null | typeof Camera>(null)
-const model = ref<null | typeof GltfModel>(null)
+const modelCanMove = ref(true)
 const renderer = ref<null | typeof Renderer>(null)
+const camera = ref<null | typeof Camera>(null)
+const cameraPos = ref({ x: 0, y: 0, z: 0 })
+const model = ref<null | typeof GltfModel>(null)
+const modelPos = ref({ x: 0, y: 0, z: 0 })
+const modelRotationY = ref(0)
 
-/** Computed */
-const cameraPos = computed(() => {
-  return POSITIONS[positionIndex.value].camera
-})
-
-const modelPos = computed(() => {
-  return POSITIONS[positionIndex.value].model
+onMounted(() => {
+  cameraPos.value = POSITIONS[positionIndex.value].camera
+  modelPos.value = POSITIONS[positionIndex.value].model
 })
 
 /** Methods */
@@ -29,9 +30,42 @@ const onError = (error: Error) => {
 }
 
 const onClick = () => {
-  if (!isModelReady.value) return
-  if (positionIndex.value === POSITIONS.length - 1) return
-  positionIndex.value++
+  if (!isModelReady.value || !modelCanMove.value) return
+
+  if (positionIndex.value < POSITIONS.length - 1) {
+    positionIndex.value++
+    animate()
+  } else {
+    rotate()
+    modelCanMove.value = false
+  }
+}
+
+const animate = () => {
+  gsap.to(cameraPos.value, {
+    x: POSITIONS[positionIndex.value].camera.x,
+    y: POSITIONS[positionIndex.value].camera.y,
+    z: POSITIONS[positionIndex.value].camera.z,
+    duration: 1,
+    ease: 'power2.out'
+  })
+
+  gsap.to(modelPos.value, {
+    x: POSITIONS[positionIndex.value].model.x,
+    y: POSITIONS[positionIndex.value].model.y,
+    z: POSITIONS[positionIndex.value].model.z,
+    duration: 1,
+    ease: 'power2.out'
+  })
+}
+
+const rotate = () => {
+  if (!isModelReady.value || !renderer.value) return
+
+  renderer.value.onBeforeRender(() => {
+    if (!model.value) return
+    modelRotationY.value += 0.01
+  })
 }
 </script>
 
@@ -52,6 +86,7 @@ const onClick = () => {
             ref="model"
             src="/models/mario/mario.gltf"
             :position="modelPos"
+            :rotation="{ x: 0, y: modelRotationY, z: 0 }"
             @load="onReady"
             @error="onError"
           />
