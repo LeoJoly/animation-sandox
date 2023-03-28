@@ -17,5 +17,14 @@
     "nuxt": "^3.3.1",
     "sass": "^1.59.3",
     "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "gsap": "^3.11.5",
+    "three": "^0.134.0",
+    "troisjs": "^0.3.4"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   }
 }

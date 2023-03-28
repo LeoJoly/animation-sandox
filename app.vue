@@ -1,5 +1,12 @@
+<script setup lang="ts">
+</script>
+
 <template>
-  <div>
-    <NuxtWelcome />
-  </div>
+  <main>
+    <Polygone />
+  </main>
 </template>
+
+<style lang="scss" scoped>
+
+</style>
