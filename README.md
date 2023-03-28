@@ -1,42 +1,20 @@
-# Nuxt 3 Minimal Starter
+# Animation sandbox
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This project is a playground to try and test cool 3D animations 🪐
 
-## Setup
-
-Make sure to install the dependencies:
+## Build Setup
 
 ```bash
-# yarn
-yarn install
-
-# npm
+# install dependencies
 npm install
 
-# pnpm
-pnpm install
-```
-
-## Development Server
-
-Start the development server on http://localhost:3000
-
-```bash
+# serve with hot reload at localhost:3000
 npm run dev
 ```
 
-## Production
+## Dependencies
 
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- [gsap](https://greensock.com/gsap/)
+- [nuxt](https://nuxt.com/)
+- [three](https://threejs.org/)
+- [troisjs](https://troisjs.github.io/)
