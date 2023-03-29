@@ -94,7 +94,7 @@ const loop = () => {
 
 <template>
   <div>
-    <canvas ref="canvas" />
+    <div ref="canvas" />
   </div>
 </template>
 

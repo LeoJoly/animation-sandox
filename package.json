@@ -22,7 +22,6 @@
   "dependencies": {
     "@vueuse/core": "^9.13.0",
     "gsap": "^3.11.5",
-    "postinstall": "^0.8.0",
     "three": "^0.150.1"
   },
   "engines": {
