@@ -17,4 +17,3 @@ npm run dev
 - [gsap](https://greensock.com/gsap/)
 - [nuxt](https://nuxt.com/)
 - [three](https://threejs.org/)
-- [troisjs](https://troisjs.github.io/)
