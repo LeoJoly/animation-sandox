@@ -6,15 +6,18 @@ export type Position = {
   z: number
 }
 
-export type PlanetOptions = {
+export type AstraOptions = {
   name: string,
   radius: number,
-  position?: Position,
-  texture?: string
   color?: ColorRepresentation
 }
 
-export type SateliteOptions = PlanetOptions & {
-  distance: number,
-  tilt: number
+export type PlanetOptions = AstraOptions & {
+  position?: Position
+  texture?: string
+}
+
+export type SateliteOptions = AstraOptions & {
+  distance?: number
+  tilt?: number
 }

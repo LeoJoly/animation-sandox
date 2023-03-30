@@ -19,9 +19,12 @@ class SceneConstructor {
   color: Color
 
   camera: PerspectiveCamera | undefined
+  cameraZ = 1500
   controls: OrbitControls | undefined
   scene: Scene | undefined
   renderer: WebGLRenderer | undefined
+
+  autoRotate = false
 
   constructor (root: HTMLElement, background: ColorRepresentation) {
     this.canvas = document.createElement('canvas')
@@ -33,7 +36,6 @@ class SceneConstructor {
     this.color = new Color(background)
 
     this.init()
-    this.loop()
     this.bindEvents()
   }
 
@@ -64,7 +66,7 @@ class SceneConstructor {
    */
   private initCamera () {
     this.camera = new PerspectiveCamera(50, this.aspectRatio, 59, 1500)
-    this.camera.position.set(0, 0, 1500)
+    this.camera.position.set(0, 0, this.cameraZ)
     this.camera.updateProjectionMatrix()
   }
 
@@ -115,11 +117,14 @@ class SceneConstructor {
   /**
    * Use requestAnimationFrame to create a loop animation
    */
-  private loop () {
+  loop (callback?: CallableFunction) {
+    if (callback) callback()
+
     if (this.controls) {
-      this.controls.autoRotate = true
+      this.controls.autoRotate = this.autoRotate
       this.controls.update()
     }
+
     this.render()
     requestAnimationFrame(() => this.loop())
   }
