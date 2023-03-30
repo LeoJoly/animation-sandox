@@ -3,7 +3,13 @@ export default {
     name: 'Saturn',
     radius: 58232,
     position: { x: 0, y: 0, z: 0 },
-    color: '#D9BBA0'
+    color: '#D9BBA0',
+    texture: '/textures/saturn.jpg',
+    ring: {
+      innerRadius: 66900,
+      outerRadius: 122170,
+      texture: '/textures/saturn_ring.png'
+    }
   },
   satelites: [
     {

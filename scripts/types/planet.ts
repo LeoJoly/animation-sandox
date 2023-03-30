@@ -6,6 +6,12 @@ export type Position = {
   z: number
 }
 
+export type Ring = {
+  innerRadius: number,
+  outerRadius: number,
+  texture: string
+}
+
 export type AstraOptions = {
   name: string,
   radius: number,
@@ -14,7 +20,8 @@ export type AstraOptions = {
 
 export type PlanetOptions = AstraOptions & {
   position?: Position
-  texture?: string
+  texture?: string,
+  ring?: Ring
 }
 
 export type SateliteOptions = AstraOptions & {

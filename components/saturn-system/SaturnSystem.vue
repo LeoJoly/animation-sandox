@@ -2,11 +2,10 @@
 import Scene from '@/scripts/class/scene.class'
 import { Planet, Satelite } from '~~/scripts/class/astra.class'
 import data from '@/assets/data'
-import { PlanetOptions } from '@/scripts/types/planet'
+import { PlanetOptions, SateliteOptions } from '@/scripts/types/planet'
 
 /** State */
 let scene: Scene
-let saturn: Satelite
 const scale = 1 / 1000
 const wrapper = ref<HTMLCanvasElement | null>(null)
 
@@ -25,14 +24,14 @@ onBeforeUnmount(() => {
 /** Methods */
 const displaySatelites = () => {
   data.satelites.forEach((satelite) => {
-    const satelitePlanet = new Satelite(satelite as PlanetOptions, scale, data.saturn.radius)
+    const satelitePlanet = new Satelite(satelite as SateliteOptions, scale, data.saturn.radius)
     if (satelitePlanet.shape) scene.addElement(satelitePlanet.shape)
   })
 }
 
 const displaySaturn = () => {
-  if (!saturn) saturn = new Planet(data.saturn as PlanetOptions, scale)
-  if (saturn.shape) scene.addElement(saturn.shape)
+  const saturn = new Planet(data.saturn as PlanetOptions, scale)
+  if (saturn.group) scene.addElement(saturn.group)
 }
 
 const initScene = () => {

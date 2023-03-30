@@ -19,7 +19,7 @@ class SceneConstructor {
   color: Color
 
   camera: PerspectiveCamera | undefined
-  cameraZ = 1500
+  cameraZ = 250
   controls: OrbitControls | undefined
   scene: Scene | undefined
   renderer: WebGLRenderer | undefined
