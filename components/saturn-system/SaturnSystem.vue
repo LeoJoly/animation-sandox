@@ -1,14 +1,27 @@
 <script setup lang="ts">
 import Scene from '@/scripts/class/scene.class'
+import Planet from '@/scripts/class/planet.class'
+import data from '@/assets/data'
+import { PlanetOptions, SateliteOptions } from '@/scripts/types/planet'
 
 /** State */
 let scene: Scene
+let saturn: Planet
+const scale = 1 / 1000
 const wrapper = ref<HTMLCanvasElement | null>(null)
 
 /** Lifecycle */
 onMounted(() => {
   if (!wrapper.value) return
   scene = new Scene(wrapper.value, '#0D070A')
+  saturn = new Planet(data.saturn as SateliteOptions, scale)
+
+  if (saturn.shape) scene.addElement(saturn.shape)
+
+  data.satelites.forEach((satelite) => {
+    const satelitePlanet = new Planet(satelite as SateliteOptions, scale, data.saturn.radius)
+    if (satelitePlanet.shape) scene.addElement(satelitePlanet.shape)
+  })
 })
 
 onBeforeUnmount(() => {

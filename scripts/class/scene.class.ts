@@ -2,10 +2,12 @@ import {
   AmbientLight,
   Color,
   ColorRepresentation,
+  Object3D,
   PerspectiveCamera,
   Scene,
   WebGLRenderer
 } from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 class SceneConstructor {
   canvas: HTMLCanvasElement
@@ -17,6 +19,7 @@ class SceneConstructor {
   color: Color
 
   camera: PerspectiveCamera | undefined
+  controls: OrbitControls | undefined
   scene: Scene | undefined
   renderer: WebGLRenderer | undefined
 
@@ -47,16 +50,36 @@ class SceneConstructor {
     this.initCamera()
     this.initLights()
     this.initRenderer()
+    this.initControls()
+
     this.root.appendChild(this.canvas)
+  }
+
+  addElement (element: Object3D) {
+    if (this.scene) this.scene.add(element)
   }
 
   /**
    * Initialize the camera
    */
   private initCamera () {
-    this.camera = new PerspectiveCamera(75, this.aspectRatio, 0.1, 100)
-    this.camera.position.set(0, 0, 4)
+    this.camera = new PerspectiveCamera(50, this.aspectRatio, 59, 1500)
+    this.camera.position.set(0, 0, 1500)
     this.camera.updateProjectionMatrix()
+  }
+
+  initControls() {
+    if (!this.camera) return
+
+    this.controls = new OrbitControls(
+      this.camera,
+      this.canvas
+    )
+
+    this.controls.minPolarAngle = (Math.PI * 1) / 6
+    this.controls.maxPolarAngle = (Math.PI * 3) / 4
+
+    this.controls.update()
   }
 
   /**
@@ -93,6 +116,10 @@ class SceneConstructor {
    * Use requestAnimationFrame to create a loop animation
    */
   private loop () {
+    if (this.controls) {
+      this.controls.autoRotate = true
+      this.controls.update()
+    }
     this.render()
     requestAnimationFrame(() => this.loop())
   }
