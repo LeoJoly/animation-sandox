@@ -6,13 +6,16 @@ import { PlanetOptions, SateliteOptions } from '@/scripts/types/planet'
 
 /** State */
 let scene: Scene
-const scale = 1 / 1000
+const scale = 1 / 10000
 const wrapper = ref<HTMLCanvasElement | null>(null)
 
 /** Lifecycle */
 onMounted(() => {
   initScene()
-  displaySaturn()
+  data.planets.forEach((planet) => {
+    displayPlanet(planet as PlanetOptions)
+  })
+  // displaySaturn()
   // displaySatelites()
   scene.loop()
 })
@@ -22,21 +25,21 @@ onBeforeUnmount(() => {
 })
 
 /** Methods */
-const displaySatelites = () => {
-  data.satelites.forEach((satelite) => {
-    const satelitePlanet = new Satelite(satelite as SateliteOptions, scale, data.saturn.radius)
-    if (satelitePlanet.shape) scene.addElement(satelitePlanet.shape)
-  })
-}
+// const displaySatelites = () => {
+//   data.satelites.forEach((satelite) => {
+//     const satelitePlanet = new Satelite(satelite as SateliteOptions, scale, data.saturn.radius)
+//     if (satelitePlanet.shape) scene.addElement(satelitePlanet.shape)
+//   })
+// }
 
-const displaySaturn = () => {
-  const saturn = new Planet(data.saturn as PlanetOptions, scale)
-  if (saturn.group) scene.addElement(saturn.group)
+const displayPlanet = (p: PlanetOptions) => {
+  const planet = new Planet(p as PlanetOptions, scale)
+  if (planet.group) scene.addElement(planet.group)
 }
 
 const initScene = () => {
   if (!wrapper.value) return
-  if (!scene) scene = new Scene(wrapper.value, '#0D070A')
+  if (!scene) scene = new Scene(wrapper.value)
 }
 </script>
 
@@ -56,6 +59,8 @@ const initScene = () => {
     height: 100%;
     width: 100%;
     overflow: hidden;
+    background-image: url('@/assets/milky-way.jpg');
+    background-size: cover;
     border-radius: 1rem;
   }
 }

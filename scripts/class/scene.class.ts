@@ -1,10 +1,8 @@
 import {
-  AmbientLight,
-  Color,
-  ColorRepresentation,
   Object3D,
   PerspectiveCamera,
   Scene,
+  SpotLight,
   WebGLRenderer
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -16,26 +14,22 @@ class SceneConstructor {
   width: number
   aspectRatio: number
 
-  color: Color
-
   camera: PerspectiveCamera | undefined
-  cameraX = 200
+  cameraX = 0
   cameraY = 0
-  cameraZ = 220
+  cameraZ = 1500
   controls: OrbitControls | undefined
   scene: Scene | undefined
   renderer: WebGLRenderer | undefined
 
   autoRotate = false
 
-  constructor (root: HTMLElement, background: ColorRepresentation) {
+  constructor (root: HTMLElement) {
     this.canvas = document.createElement('canvas')
     this.root = root
     this.height = root.clientHeight
     this.width = root.clientWidth
     this.aspectRatio = this.width / this.height
-
-    this.color = new Color(background)
 
     this.init()
     this.bindEvents()
@@ -67,7 +61,7 @@ class SceneConstructor {
    * Initialize the camera
    */
   private initCamera () {
-    this.camera = new PerspectiveCamera(75, this.aspectRatio, 59, 1500)
+    this.camera = new PerspectiveCamera(75, this.aspectRatio, 1, 1500)
     this.camera.position.set(this.cameraX, this.cameraY, this.cameraZ)
     this.camera.lookAt(0, 0, 0)
     this.camera.updateProjectionMatrix()
@@ -92,7 +86,9 @@ class SceneConstructor {
    * and add them to the scene
    */
   private initLights () {
-    const light = new AmbientLight(0xffffff, 1)
+    const light = new SpotLight(0xffffff, 1)
+    light.castShadow = true
+    light.position.set(530, 0, 1060)
     if (this.scene) this.scene.add(light)
   }
 
@@ -101,7 +97,6 @@ class SceneConstructor {
    */
   private initScene () {
     this.scene = new Scene()
-    this.scene.background = this.color
   }
 
   /**
@@ -111,6 +106,7 @@ class SceneConstructor {
   private initRenderer () {
     if (this.renderer) return
     this.renderer = new WebGLRenderer({ alpha: true, antialias: true })
+    this.renderer.shadowMap.enabled = true
     this.renderer.setSize(this.width, this.height)
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 

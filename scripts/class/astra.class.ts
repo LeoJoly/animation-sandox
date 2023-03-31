@@ -1,10 +1,9 @@
 import {
   BufferAttribute,
   Color,
-  DoubleSide,
   Group,
   Mesh,
-  MeshBasicMaterial,
+  MeshPhongMaterial,
   RingGeometry,
   SphereGeometry,
   TextureLoader,
@@ -33,9 +32,12 @@ class Astra {
   private initSphere () {
     this.shape = new Mesh(
       new SphereGeometry(this.radius, 64, 64),
-      new MeshBasicMaterial({ color: this.color })
+      new MeshPhongMaterial({ color: this.color, wireframe: true })
     )
     this.shape.name = this.name
+
+    this.shape.castShadow = true
+    this.shape.receiveShadow = true
   }
 }
 
@@ -62,15 +64,19 @@ class Planet extends Satelite {
   texture?: string
   scale: number
   angle?: number
+  position: Position
 
   ringConfig?: Ring
-  ring?: Mesh
+  rings = [1, -1]
 
-  constructor ({ angle, color, name, radius, ring, texture }: PlanetOptions, scale: number) {
+  constructor ({ angle, color, name, position, radius, ring, texture }: PlanetOptions, scale: number) {
     super({ color, name, radius }, scale)
     this.angle = angle || 0
     this.texture = texture
     this.scale = scale
+    this.position = position
+      ? { x: position.x * this.scale, y: position.y * this.scale, z: position.z * this.scale }
+      : { x: 0, y: 0, z: 0 }
     this.ringConfig = ring
 
     this.init()
@@ -80,7 +86,10 @@ class Planet extends Satelite {
     this.setTexture()
     this.initRing()
 
-    if (this.shape) this.group.add(this.shape)
+    if (this.shape) {
+      this.group.add(this.shape)
+      this.group.position.set(this.position.x, this.position.y, this.position.z)
+    }
 
     this.tiltGourp()
   }
@@ -90,9 +99,13 @@ class Planet extends Satelite {
    */
   private initRing () {
     if (!this.ringConfig) return
+
+    const ringGroup = new Group()
+
     const texture = this.loader.load(this.ringConfig.texture)
     const innerRadius = this.ringConfig.innerRadius * this.scale
     const outerRadius = this.ringConfig.outerRadius * this.scale
+
 
     // Set the geometry of the ring
     // and position the texture on the inside of the ring
@@ -106,17 +119,26 @@ class Planet extends Satelite {
     }
 
     // Set the material of the ring
-    const material = new MeshBasicMaterial({
+    const material = new MeshPhongMaterial({
       map: texture,
-      side: DoubleSide,
+      // side: DoubleSide,
       color: 0xffffff,
       transparent: true
     })
 
-    this.ring = new Mesh(geometry, material)
-    this.ring.rotation.x = Math.PI / 2
+    // We need to create twi rings
+    // upside down from each other so that the texture is visible on both sides
+    // and the shadow is casted correctly
+    this.rings.forEach(r => {
+      const ring = new Mesh(geometry, material)
+      ring.castShadow = true
+      ring.receiveShadow = true
+      ring.position.z = r * 0.1
+      ring.rotation.x = r * Math.PI / 2
+      ringGroup.add(ring)
+    })
 
-    this.group.add(this.ring)
+    this.group.add(ringGroup)
   }
 
   /**
@@ -126,7 +148,9 @@ class Planet extends Satelite {
     if (!this.texture) return
     this.loader.load(this.texture, (texture) => {
       if (!this.shape) return
-      this.shape.material = new MeshBasicMaterial({ map: texture })
+      this.shape.material = new MeshPhongMaterial({
+        map: texture
+      })
     })
   }
 
@@ -135,7 +159,8 @@ class Planet extends Satelite {
    */
   private tiltGourp () {
     if (!this.angle) return
-    this.group.rotation.x = this.angle * Math.PI / 180
+    this.group.rotation.x = this.angle / 2 * Math.PI / 180
+    this.group.rotation.z = -this.angle * Math.PI / 180
   }
 }
 
