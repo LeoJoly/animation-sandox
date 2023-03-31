@@ -12,6 +12,7 @@ import {
 } from 'three'
 import { AstraOptions, PlanetOptions, Position, Ring, SateliteOptions } from '@/scripts/types/planet'
 
+// Class representing a simple astral body (sphere)
 class Astra {
   name: string
   radius: number
@@ -21,27 +22,31 @@ class Astra {
   constructor ({ color, name, radius }: AstraOptions, scale: number) {
     this.name = name
     this.radius = radius * scale
+    this.color = new Color(color)
 
     this.initSphere()
-
-    if (color && this.shape) {
-      this.color = new Color(color)
-      this.shape.material = new MeshBasicMaterial({ color: this.color })
-    }
   }
 
+  /**
+   * Sphere shape initialization
+   */
   private initSphere () {
-    this.shape = new Mesh(new SphereGeometry(this.radius, 64, 64))
+    this.shape = new Mesh(
+      new SphereGeometry(this.radius, 64, 64),
+      new MeshBasicMaterial({ color: this.color })
+    )
     this.shape.name = this.name
   }
 }
 
+// Class representing a satelite orbiting around a planet
 class Satelite extends Astra {
   position: Position = { x: 0, y: 0, z: 0 }
 
   constructor ({ color, distance, name, radius }: SateliteOptions, scale: number, saturnRadius?: number) {
     super({ color, name, radius }, scale)
 
+    // If the satelite is orbiting around a planet, we need to calculate its position
     if (distance && saturnRadius) {
       this.position = { x: (saturnRadius + distance + radius) * scale, y: 0, z: 0 }
       this.shape?.position.set(this.position.x, this.position.y, this.position.z)
@@ -49,6 +54,7 @@ class Satelite extends Astra {
   }
 }
 
+// Class representing a planet
 class Planet extends Satelite {
   group: Group = new Group()
   loader: TextureLoader = new TextureLoader()
@@ -79,13 +85,17 @@ class Planet extends Satelite {
     this.tiltGourp()
   }
 
+  /**
+   * Add a ring around the planet if it has one
+   */
   private initRing () {
     if (!this.ringConfig) return
     const texture = this.loader.load(this.ringConfig.texture)
     const innerRadius = this.ringConfig.innerRadius * this.scale
     const outerRadius = this.ringConfig.outerRadius * this.scale
 
-
+    // Set the geometry of the ring
+    // and position the texture on the inside of the ring
     const geometry = new RingGeometry(innerRadius, outerRadius, 64)
     const pos = geometry.attributes.position as BufferAttribute
     const v3 = new Vector3()
@@ -95,6 +105,7 @@ class Planet extends Satelite {
       uv.setXY(i, v3.length() < outerRadius - 1 ? 0 : 1, 1)
     }
 
+    // Set the material of the ring
     const material = new MeshBasicMaterial({
       map: texture,
       side: DoubleSide,
@@ -108,6 +119,9 @@ class Planet extends Satelite {
     this.group.add(this.ring)
   }
 
+  /**
+   * Set the texture of the planet
+   */
   private setTexture () {
     if (!this.texture) return
     this.loader.load(this.texture, (texture) => {
@@ -116,9 +130,11 @@ class Planet extends Satelite {
     })
   }
 
+  /**
+   * Tilt the planet from the suns orbit axis
+   */
   private tiltGourp () {
     if (!this.angle) return
-    console.log(this.angle * Math.PI / 180)
     this.group.rotation.x = this.angle * Math.PI / 180
   }
 }
