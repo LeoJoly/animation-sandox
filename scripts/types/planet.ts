@@ -21,7 +21,8 @@ export type AstraOptions = {
 export type PlanetOptions = AstraOptions & {
   position?: Position
   texture?: string,
-  ring?: Ring
+  ring?: Ring,
+  angle?: number
 }
 
 export type SateliteOptions = AstraOptions & {

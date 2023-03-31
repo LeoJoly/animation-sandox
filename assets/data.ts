@@ -8,8 +8,9 @@ export default {
     ring: {
       innerRadius: 66900,
       outerRadius: 122170,
-      texture: '/textures/saturn_ring.png'
-    }
+      texture: '/textures/saturn-ring.png'
+    },
+    angle: 26.7
   },
   satelites: [
     {

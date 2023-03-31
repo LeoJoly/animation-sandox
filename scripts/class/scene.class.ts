@@ -19,7 +19,9 @@ class SceneConstructor {
   color: Color
 
   camera: PerspectiveCamera | undefined
-  cameraZ = 250
+  cameraX = 200
+  cameraY = 0
+  cameraZ = 220
   controls: OrbitControls | undefined
   scene: Scene | undefined
   renderer: WebGLRenderer | undefined
@@ -65,8 +67,9 @@ class SceneConstructor {
    * Initialize the camera
    */
   private initCamera () {
-    this.camera = new PerspectiveCamera(50, this.aspectRatio, 59, 1500)
-    this.camera.position.set(0, 0, this.cameraZ)
+    this.camera = new PerspectiveCamera(75, this.aspectRatio, 59, 1500)
+    this.camera.position.set(this.cameraX, this.cameraY, this.cameraZ)
+    this.camera.lookAt(0, 0, 0)
     this.camera.updateProjectionMatrix()
   }
 

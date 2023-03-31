@@ -1,4 +1,5 @@
 import {
+  BufferAttribute,
   Color,
   DoubleSide,
   Group,
@@ -6,7 +7,8 @@ import {
   MeshBasicMaterial,
   RingGeometry,
   SphereGeometry,
-  TextureLoader
+  TextureLoader,
+  Vector3
 } from 'three'
 import { AstraOptions, PlanetOptions, Position, Ring, SateliteOptions } from '@/scripts/types/planet'
 
@@ -53,12 +55,14 @@ class Planet extends Satelite {
 
   texture?: string
   scale: number
+  angle?: number
 
   ringConfig?: Ring
   ring?: Mesh
 
-  constructor ({ color, name, radius, ring, texture }: PlanetOptions, scale: number) {
+  constructor ({ angle, color, name, radius, ring, texture }: PlanetOptions, scale: number) {
     super({ color, name, radius }, scale)
+    this.angle = angle || 0
     this.texture = texture
     this.scale = scale
     this.ringConfig = ring
@@ -71,14 +75,34 @@ class Planet extends Satelite {
     this.initRing()
 
     if (this.shape) this.group.add(this.shape)
+
+    this.tiltGourp()
   }
 
   private initRing () {
     if (!this.ringConfig) return
-    this.ring = new Mesh(
-      new RingGeometry(this.ringConfig.innerRadius * this.scale, this.ringConfig.outerRadius * this.scale, 64),
-      new MeshBasicMaterial({ color: '#D92525', side: DoubleSide })
-    )
+    const texture = this.loader.load(this.ringConfig.texture)
+    const innerRadius = this.ringConfig.innerRadius * this.scale
+    const outerRadius = this.ringConfig.outerRadius * this.scale
+
+
+    const geometry = new RingGeometry(innerRadius, outerRadius, 64)
+    const pos = geometry.attributes.position as BufferAttribute
+    const v3 = new Vector3()
+    for (let i = 0; i < pos.count; i++) {
+      v3.fromBufferAttribute(pos, i)
+      const uv = geometry.attributes.uv as BufferAttribute
+      uv.setXY(i, v3.length() < outerRadius - 1 ? 0 : 1, 1)
+    }
+
+    const material = new MeshBasicMaterial({
+      map: texture,
+      side: DoubleSide,
+      color: 0xffffff,
+      transparent: true
+    })
+
+    this.ring = new Mesh(geometry, material)
     this.ring.rotation.x = Math.PI / 2
 
     this.group.add(this.ring)
@@ -90,6 +114,12 @@ class Planet extends Satelite {
       if (!this.shape) return
       this.shape.material = new MeshBasicMaterial({ map: texture })
     })
+  }
+
+  private tiltGourp () {
+    if (!this.angle) return
+    console.log(this.angle * Math.PI / 180)
+    this.group.rotation.x = this.angle * Math.PI / 180
   }
 }
 
