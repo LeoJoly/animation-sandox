@@ -1,5 +1,3 @@
-import { ColorRepresentation } from 'three'
-
 export type Position = {
   x: number,
   y: number,
@@ -12,20 +10,11 @@ export type Ring = {
   texture: string
 }
 
-export type AstraOptions = {
+export type PlanetOptions = {
   name: string,
   radius: number,
-  color?: ColorRepresentation
-}
-
-export type PlanetOptions = AstraOptions & {
-  position?: Position
-  texture?: string,
+  position: Position
+  texture: string,
   ring?: Ring,
-  angle?: number
-}
-
-export type SateliteOptions = AstraOptions & {
-  distance?: number
-  tilt?: number
+  tilt: number
 }

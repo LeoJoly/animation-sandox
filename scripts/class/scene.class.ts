@@ -1,11 +1,15 @@
 import {
+  AmbientLight,
+  CubeTextureLoader,
   Object3D,
   PerspectiveCamera,
+  PointLight,
   Scene,
   SpotLight,
   WebGLRenderer
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import starTexture from '@/assets/textures/starts-texture.jpg'
 
 class SceneConstructor {
   canvas: HTMLCanvasElement
@@ -15,9 +19,7 @@ class SceneConstructor {
   aspectRatio: number
 
   camera: PerspectiveCamera | undefined
-  cameraX = 0
-  cameraY = 0
-  cameraZ = 1500
+  cameraPos = { x: -90, y: 140, z: 140 }
   controls: OrbitControls | undefined
   scene: Scene | undefined
   renderer: WebGLRenderer | undefined
@@ -61,8 +63,8 @@ class SceneConstructor {
    * Initialize the camera
    */
   private initCamera () {
-    this.camera = new PerspectiveCamera(75, this.aspectRatio, 1, 1500)
-    this.camera.position.set(this.cameraX, this.cameraY, this.cameraZ)
+    this.camera = new PerspectiveCamera(45, this.aspectRatio, 0.01, 1000)
+    this.camera.position.set(this.cameraPos.x, this.cameraPos.y, this.cameraPos.z)
     this.camera.lookAt(0, 0, 0)
     this.camera.updateProjectionMatrix()
   }
@@ -86,10 +88,39 @@ class SceneConstructor {
    * and add them to the scene
    */
   private initLights () {
-    const light = new SpotLight(0xffffff, 1)
-    light.castShadow = true
-    light.position.set(530, 0, 1060)
-    if (this.scene) this.scene.add(light)
+    const ambientLight = new AmbientLight(0xffffff, 1)
+    if (this.scene) this.scene.add(ambientLight)
+
+    // const pointLight = new PointLight(0xFFFFFF, 2)
+    // if (this.scene) this.scene.add(pointLight)
+
+    // // This mimics the light of the sun
+    // const pointLight = new PointLight(0xffffff, 1)
+    // pointLight.position.set(0, 0, 0)
+    // pointLight.castShadow = true
+    // if (this.scene) this.scene.add(pointLight)
+
+    // // We also need to light the sun to see it
+    // const spotLightA = new SpotLight(0xffffff, 1)
+    // const spotLightB = new SpotLight(0xffffff, 1)
+    // const spotLightC = new SpotLight(0xffffff, 1)
+    // const spotLightD = new SpotLight(0xffffff, 1)
+    // const spotLightE = new SpotLight(0xffffff, 1)
+    // const spotLightF = new SpotLight(0xffffff, 1)
+    // spotLightA.position.set(0, 0, 20)
+    // spotLightB.position.set(0, 0, -20)
+    // spotLightC.position.set(0, 20, 0)
+    // spotLightD.position.set(0, -20, 0)
+    // spotLightE.position.set(20, 0, 0)
+    // spotLightF.position.set(-20, 0, 0)
+    // if (this.scene) {
+    //   this.scene.add(spotLightA)
+    //   this.scene.add(spotLightB)
+    //   this.scene.add(spotLightC)
+    //   this.scene.add(spotLightD)
+    //   this.scene.add(spotLightE)
+    //   this.scene.add(spotLightF)
+    // }
   }
 
   /**
@@ -97,6 +128,16 @@ class SceneConstructor {
    */
   private initScene () {
     this.scene = new Scene()
+
+    const cubeTextureLoader = new CubeTextureLoader()
+    this.scene.background = cubeTextureLoader.load([
+      starTexture,
+      starTexture,
+      starTexture,
+      starTexture,
+      starTexture,
+      starTexture
+    ])
   }
 
   /**
@@ -150,6 +191,7 @@ class SceneConstructor {
   private render () {
     if (!this.camera || !this.scene || !this.renderer) return
     this.camera.lookAt(this.scene.position)
+    // this.camera.lookAt(57.902439, 0, 0)
     this.renderer.render(this.scene, this.camera)
   }
 }

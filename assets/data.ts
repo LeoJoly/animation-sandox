@@ -2,123 +2,71 @@ export default {
   planets: [
     {
       name: 'Sun',
-      radius: 695700,
+      radius: 20,
       position: { x: 0, y: 0, z: 0 },
-      color: '#FEB938',
-      texture: '/textures/sun.jpg'
+      texture: '/textures/sun.jpg',
+      tilt: 0
     },
     {
       name: 'Mercury',
-      radius: 2439,
-      position: { x: 698136, y: 0, z: 0 },
-      color: '#7C7C7C',
-      texture: '/textures/mercury.jpg'
+      radius: 6,
+      position: { x: 53, y: 0, z: 0 },
+      texture: '/textures/mercury.jpg',
+      tilt: 0.027
     },
     {
       name: 'Venus',
-      radius: 6051,
-      position: { x: 706626, y: 0, z: 0 },
-      color: '#E6AB46',
-      texture: '/textures/venus.jpg'
+      radius: 7,
+      position: { x: 99.5, y: 0, z: 0 },
+      texture: '/textures/venus.jpg',
+      tilt: 177.4
     },
     {
       name: 'Earth',
-      radius: 6371,
-      position: { x: 719048, y: 0, z: 0 },
-      color: '1E3B75',
-      texture: '/textures/earth.jpg'
+      radius: 8,
+      position: { x: 147, y: 0, z: 0 },
+      texture: '/textures/earth.jpg',
+      tilt: 23.4
     },
     {
       name: 'Mars',
-      radius: 3389,
-      position: { x: 728808, y: 0, z: 0 },
-      color: '1E3B75',
-      texture: '/textures/mars.jpg'
+      radius: 5.5,
+      position: { x: 193.75, y: 0, z: 0 },
+      texture: '/textures/mars.jpg',
+      tilt: 25.2
     },
     {
       name: 'Jupiter',
-      radius: 69911,
-      position: { x: 802108, y: 0, z: 0 },
-      color: '1E3B75',
-      texture: '/textures/jupiter.jpg'
+      radius: 16,
+      position: { x: 244.5, y: 0, z: 0 },
+      texture: '/textures/jupiter.jpg',
+      tilt: 3
     },
     {
       name: 'Saturn',
-      radius: 58232,
-      position: { x: 994189, y: 0, z: 0 },
-      color: '#D9BBA0',
+      radius: 15,
+      position: { x: 308.235, y: 0, z: 0 },
       texture: '/textures/saturn.jpg',
       ring: {
-        innerRadius: 66900,
-        outerRadius: 122170,
+        innerRadius: 17.233,
+        outerRadius: 31.47,
         texture: '/textures/saturn-ring-top.png'
       },
-      angle: 26.7
+      tilt: 26.7
     },
     {
       name: 'Uranus',
-      radius: 25362,
-      position: { x: 1141721, y: 0, z: 0 },
-      color: '#A5D6DD',
-      texture: '/textures/uranus.jpg'
+      radius: 12,
+      position: { x: 369.97, y: 0, z: 0 },
+      texture: '/textures/uranus.jpg',
+      tilt: 97.8
     },
     {
       name: 'Neptune',
-      radius: 24622,
-      position: { x: 1191705, y: 0, z: 0 },
-      color: '#375EBF',
-      texture: '/textures/neptune.jpg'
+      radius: 11,
+      position: { x: 421.47, y: 0, z: 0 },
+      texture: '/textures/neptune.jpg',
+      tilt: 28.3
     }
   ]
-  // satelites: [
-  //   {
-  //     name: 'Titan',
-  //     radius: 2575,
-  //     distance: 1221865,
-  //     tilt: 0.028,
-  //     color: '#FFCB9A'
-  //   },
-  //   {
-  //     name: 'Rhea',
-  //     radius: 1527,
-  //     distance: 527108,
-  //     tilt: 0.345,
-  //     color: '#4C594F'
-  //   },
-  //   {
-  //     name: 'Japet',
-  //     radius: 1468,
-  //     distance: 778570,
-  //     tilt: 0.064,
-  //     color: '#D2E8E3'
-  //   },
-  //   {
-  //     name: 'Dione',
-  //     radius: 1123,
-  //     distance: 377400,
-  //     tilt: 0.028,
-  //     color: '#F4E2DE'
-  //   },
-  //   {
-  //     name: 'Tethys',
-  //     radius: 1062,
-  //     distance: 294672,
-  //     tilt: 0.028,
-  //     color: '#B2BEBF'
-  //   },
-  //   {
-  //     name: 'Encelade',
-  //     radius: 252,
-  //     distance: 237948,
-  //     tilt: 0.004,
-  //     color: '#E8E9B2'
-  //   },
-  //   {
-  //     name: 'Mimas',
-  //     radius: 198,
-  //     distance: 185539,
-  //     tilt: 0.028,
-  //     color: '#BFBFB8'
-  //   }
-  // ]
 }

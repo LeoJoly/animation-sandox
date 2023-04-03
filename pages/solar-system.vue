@@ -1,7 +1,7 @@
 <template>
   <main class="p-page">
     <ClientOnly>
-      <SaturnSystem />
+      <SolarSystem />
     </ClientOnly>
   </main>
 </template>
