@@ -54,6 +54,9 @@ class Planet {
     this.positionGroup()
   }
 
+  /**
+   * Add a circle around the planet to show its orbit
+   */
   private initCircle () {
     const geometry = new TorusGeometry(this.position.x, 0.1, 16, 100)
     const material = new MeshBasicMaterial({ color: 0xeaeaea })
@@ -110,6 +113,9 @@ class Planet {
     this.planetGroup.add(ringGroup)
   }
 
+  /**
+   * Add the sphere to the planet group
+   */
   private initSphere () {
     const loader = new TextureLoader()
     const texture = loader.load(this.texture)
@@ -123,6 +129,10 @@ class Planet {
     this.planetGroup.add(this.sphere)
   }
 
+  /**
+   * Position the planet group from the center (the Sun)
+   * and tilt it
+   */
   private positionGroup () {
     this.planetGroup.position.set(this.position.x, this.position.y, this.position.z)
     this.planetGroup.rotation.x = this.tilt * Math.PI / 180

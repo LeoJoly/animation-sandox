@@ -29,20 +29,36 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   scene.unbindEvents()
-  scene.renderer?.clear()
+  scene.renderer?.setAnimationLoop(null)
+  scene.renderer?.dispose()
 })
 
+/** Methods */
+/**
+ * Intialize new planet
+ * It-s used in the mounted hook
+ * @param p - Planet options
+ */
 const displayPlanet = (p: PlanetOptions) => {
   const planet = new Planet(p as PlanetOptions, scale)
   if (planet.mainGroup) scene.addElement(planet.mainGroup)
   planets.push(planet)
 }
 
+/**
+ * Initialize new scene
+ * It-s used in the mounted hook
+ */
 const initScene = () => {
   if (!wrapper.value) return
   if (!scene) scene = new Scene(wrapper.value, autoRotate.value)
 }
 
+/**
+ * Callback function used un the renderer loop
+ * It calculates new rotation and orbit of each planet
+ * and update the time elapsed
+ */
 const loopCallback = () => {
   planets.forEach((planet) => {
     if (planet.planetGroup && planet.rotationSpeed)
