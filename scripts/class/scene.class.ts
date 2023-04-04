@@ -23,14 +23,16 @@ class SceneConstructor {
   scene: Scene | undefined
   renderer: WebGLRenderer | undefined
 
-  autoRotate = false
+  autoRotate: boolean
 
-  constructor (root: HTMLElement) {
+  constructor (root: HTMLElement, autoRotate: boolean) {
     this.canvas = document.createElement('canvas')
     this.root = root
     this.height = root.clientHeight
     this.width = root.clientWidth
     this.aspectRatio = this.width / this.height
+
+    this.autoRotate = autoRotate
 
     this.init()
     this.bindEvents()
@@ -129,6 +131,12 @@ class SceneConstructor {
   loop (callback?: CallableFunction) {
     this.renderer?.setAnimationLoop(() => {
       if (callback) callback()
+
+      if (this.controls) {
+        this.controls.autoRotate = this.autoRotate
+        this.controls.update()
+      }
+
       this.render()
     })
   }

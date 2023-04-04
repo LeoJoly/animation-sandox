@@ -21,6 +21,8 @@ class Planet {
   texture: string
   tilt: number
   position: Position
+  orbitSpeed: number
+  rotationSpeed: number
 
   ringConfig?: Ring
   rings = [1, -1]
@@ -37,6 +39,8 @@ class Planet {
     this.texture = planet.texture
     this.position = scalePosition(planet.position, scale)
     this.tilt = planet.tilt
+    this.orbitSpeed = planet.orbitSpeed
+    this.rotationSpeed = planet.rotationSpeed
 
     this.ringConfig = planet.ring
 
@@ -52,7 +56,7 @@ class Planet {
 
   private initCircle () {
     const geometry = new TorusGeometry(this.position.x, 0.1, 16, 100)
-    const material = new MeshBasicMaterial({ color: 0x3a3a3a })
+    const material = new MeshBasicMaterial({ color: 0xeaeaea })
     const circle = new Mesh(geometry, material)
     circle.rotation.x = Math.PI / 2
     this.mainGroup.add(circle)
@@ -114,8 +118,7 @@ class Planet {
     const material = this.name === 'Sun' ? new MeshBasicMaterial({ map: texture }) : new MeshPhongMaterial({ map: texture })
     this.sphere = new Mesh(geometry, material)
     this.sphere.name = this.name
-    this.sphere.castShadow = this.name !== 'Sun'
-    this.sphere.receiveShadow = this.name !== 'Sun'
+
 
     this.planetGroup.add(this.sphere)
   }

@@ -16,5 +16,7 @@ export type PlanetOptions = {
   position: Position
   texture: string,
   ring?: Ring,
-  tilt: number
+  tilt: number,
+  orbitSpeed: number,
+  rotationSpeed: number
 }

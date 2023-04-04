@@ -8,7 +8,14 @@ import { PlanetOptions } from '@/scripts/types/planet'
 let scene: Scene
 const planets: Planet[] = []
 const scale = 1 / 2
+const autoRotate = ref(false)
+const speed = ref(0.05)
+const time = ref(0)
 const wrapper = ref<HTMLCanvasElement | null>(null)
+
+watch(autoRotate, (val) => {
+  if (scene) scene.autoRotate = val
+})
 
 /** Lifecycle */
 onMounted(() => {
@@ -22,6 +29,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   scene.unbindEvents()
+  scene.renderer?.clear()
 })
 
 const displayPlanet = (p: PlanetOptions) => {
@@ -32,13 +40,18 @@ const displayPlanet = (p: PlanetOptions) => {
 
 const initScene = () => {
   if (!wrapper.value) return
-  if (!scene) scene = new Scene(wrapper.value)
+  if (!scene) scene = new Scene(wrapper.value, autoRotate.value)
 }
 
 const loopCallback = () => {
   planets.forEach((planet) => {
-    if (!planet.mainGroup) return
-    planet.mainGroup.rotation.y += 0.001
+    if (planet.planetGroup && planet.rotationSpeed)
+      planet.planetGroup.rotation.y += (360 * Math.PI / 180) * 1 / planet.rotationSpeed * speed.value
+
+    if (planet.mainGroup && planet.orbitSpeed)
+      planet.mainGroup.rotation.y += (360 * Math.PI / 180) * speed.value / planet.orbitSpeed
+
+    time.value += 360 * Math.PI / 180 * speed.value / 365.25 * Math.PI / 180
   })
 }
 </script>
@@ -46,11 +59,19 @@ const loopCallback = () => {
 <template>
   <div class="c-solar-system">
     <div ref="wrapper" class="c-solar-system__wrapper" />
+    <Controls
+      :auto-rotate="autoRotate"
+      :time="time"
+      @set-speed-down="speed = speed / 1.5"
+      @set-speed-up="speed = speed * 1.5"
+      @toggle-auto-rotate="autoRotate = !autoRotate"
+    />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .c-solar-system {
+  position: relative;
   height: 100vh;
   width: 100vw;
   padding: 2rem;
