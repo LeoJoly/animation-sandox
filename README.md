@@ -14,6 +14,5 @@ npm run dev
 
 ## Dependencies
 
-- [gsap](https://greensock.com/gsap/)
 - [nuxt](https://nuxt.com/)
 - [three](https://threejs.org/)
