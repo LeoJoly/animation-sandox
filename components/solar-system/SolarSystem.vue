@@ -6,6 +6,7 @@ import { PlanetOptions } from '@/scripts/types/planet'
 
 /** State */
 let scene: Scene
+const planets: Planet[] = []
 const scale = 1 / 2
 const wrapper = ref<HTMLCanvasElement | null>(null)
 
@@ -16,7 +17,7 @@ onMounted(() => {
     displayPlanet(planet as PlanetOptions)
   })
 
-  scene.loop()
+  scene.loop(loopCallback)
 })
 
 onBeforeUnmount(() => {
@@ -26,11 +27,19 @@ onBeforeUnmount(() => {
 const displayPlanet = (p: PlanetOptions) => {
   const planet = new Planet(p as PlanetOptions, scale)
   if (planet.mainGroup) scene.addElement(planet.mainGroup)
+  planets.push(planet)
 }
 
 const initScene = () => {
   if (!wrapper.value) return
   if (!scene) scene = new Scene(wrapper.value)
+}
+
+const loopCallback = () => {
+  planets.forEach((planet) => {
+    if (!planet.mainGroup) return
+    planet.mainGroup.rotation.y += 0.001
+  })
 }
 </script>
 

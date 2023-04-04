@@ -5,7 +5,6 @@ import {
   PerspectiveCamera,
   PointLight,
   Scene,
-  SpotLight,
   WebGLRenderer
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -77,9 +76,6 @@ class SceneConstructor {
       this.canvas
     )
 
-    this.controls.minPolarAngle = (Math.PI * 1) / 6
-    this.controls.maxPolarAngle = (Math.PI * 3) / 4
-
     this.controls.update()
   }
 
@@ -88,39 +84,12 @@ class SceneConstructor {
    * and add them to the scene
    */
   private initLights () {
-    const ambientLight = new AmbientLight(0xffffff, 1)
+    const ambientLight = new AmbientLight(0x333333)
     if (this.scene) this.scene.add(ambientLight)
 
-    // const pointLight = new PointLight(0xFFFFFF, 2)
-    // if (this.scene) this.scene.add(pointLight)
-
-    // // This mimics the light of the sun
-    // const pointLight = new PointLight(0xffffff, 1)
-    // pointLight.position.set(0, 0, 0)
-    // pointLight.castShadow = true
-    // if (this.scene) this.scene.add(pointLight)
-
-    // // We also need to light the sun to see it
-    // const spotLightA = new SpotLight(0xffffff, 1)
-    // const spotLightB = new SpotLight(0xffffff, 1)
-    // const spotLightC = new SpotLight(0xffffff, 1)
-    // const spotLightD = new SpotLight(0xffffff, 1)
-    // const spotLightE = new SpotLight(0xffffff, 1)
-    // const spotLightF = new SpotLight(0xffffff, 1)
-    // spotLightA.position.set(0, 0, 20)
-    // spotLightB.position.set(0, 0, -20)
-    // spotLightC.position.set(0, 20, 0)
-    // spotLightD.position.set(0, -20, 0)
-    // spotLightE.position.set(20, 0, 0)
-    // spotLightF.position.set(-20, 0, 0)
-    // if (this.scene) {
-    //   this.scene.add(spotLightA)
-    //   this.scene.add(spotLightB)
-    //   this.scene.add(spotLightC)
-    //   this.scene.add(spotLightD)
-    //   this.scene.add(spotLightE)
-    //   this.scene.add(spotLightF)
-    // }
+    const pointLight = new PointLight(0xFFFFFF, 2, 450)
+    pointLight.castShadow = true
+    if (this.scene) this.scene.add(pointLight)
   }
 
   /**
@@ -158,15 +127,10 @@ class SceneConstructor {
    * Use requestAnimationFrame to create a loop animation
    */
   loop (callback?: CallableFunction) {
-    if (callback) callback()
-
-    if (this.controls) {
-      this.controls.autoRotate = this.autoRotate
-      this.controls.update()
-    }
-
-    this.render()
-    requestAnimationFrame(() => this.loop())
+    this.renderer?.setAnimationLoop(() => {
+      if (callback) callback()
+      this.render()
+    })
   }
 
   /**
@@ -190,8 +154,6 @@ class SceneConstructor {
    */
   private render () {
     if (!this.camera || !this.scene || !this.renderer) return
-    this.camera.lookAt(this.scene.position)
-    // this.camera.lookAt(57.902439, 0, 0)
     this.renderer.render(this.scene, this.camera)
   }
 }

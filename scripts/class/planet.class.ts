@@ -111,11 +111,11 @@ class Planet {
     const texture = loader.load(this.texture)
 
     const geometry = new SphereGeometry(this.radius, 64, 64)
-    const material = this.name === 'sun' ? new MeshBasicMaterial({ map: texture }) : new MeshPhongMaterial({ map: texture })
+    const material = this.name === 'Sun' ? new MeshBasicMaterial({ map: texture }) : new MeshPhongMaterial({ map: texture })
     this.sphere = new Mesh(geometry, material)
     this.sphere.name = this.name
-    this.sphere.castShadow = true
-    this.sphere.receiveShadow = true
+    this.sphere.castShadow = this.name !== 'Sun'
+    this.sphere.receiveShadow = this.name !== 'Sun'
 
     this.planetGroup.add(this.sphere)
   }
