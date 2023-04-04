@@ -8,6 +8,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@types/three": "^0.150.0",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "@vue/eslint-config-standard": "^8.0.1",
@@ -19,9 +20,8 @@
     "typescript": "^5.0.2"
   },
   "dependencies": {
-    "gsap": "^3.11.5",
-    "three": "^0.134.0",
-    "troisjs": "^0.3.4"
+    "@vueuse/core": "^9.13.0",
+    "three": "^0.150.1"
   },
   "engines": {
     "node": ">=16.0.0",

@@ -32,7 +32,7 @@ module.exports = {
     'vue/newline-before-return': 'off',
     'vue/singleline-html-element-content-newline': 'off',
     'comma-dangle': ['error', 'never'],
-    curly: ['error', 'multi'],
+    // curly: ['error', 'multi'],
     indent: ['error', 2, { SwitchCase: 1 }],
     'no-console': 'warn',
     'no-multi-spaces': 'error',
